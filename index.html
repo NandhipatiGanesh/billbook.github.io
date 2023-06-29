@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+
+<style>
+
+.bil-div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+
+.txt-inp-area1{
+  text-align: left;
+  padding-top: 15px;
+  border: 2px solid rgb(200, 200, 200);
+  background-color: transparent;
+  border-radius: 20px;
+
+}
+
+.txt-inp-area {
+  text-align: left;
+  padding-top: 15px;
+  border: 2px solid rgb(200, 200, 200);
+  background-color: transparent;
+  border-radius: 20px;
+  rows: 2;
+  cols: 30;
+}
+
+.equals {
+  text-align: center;
+  padding-bottom: 5px;
+  
+}
+
+.add{
+  margin-top:50px;
+}
+
+.addon {
+  border: 1px solid black;
+  border-radius: 30px;
+  background-color: white;
+  padding: 5px;
+  color: black;
+  --glow-color: rgb(217, 176, 255);
+  --glow-spread-color: rgba(191, 123, 255, 0.781);
+  --enhanced-glow-color: rgb(231, 206, 255);
+  --btn-color: rgb(100, 61, 136);
+  border: .25em solid var(--glow-color);
+  color: var(--glow-color);
+  font-size: 25px;
+  font-weight: bold;
+  background-color: var(--btn-color);
+  border-radius: 1em;
+  outline: none;
+  box-shadow: 0 0 1em .25em var(--glow-color),
+        0 0 4em 1em var(--glow-spread-color),
+        inset 0 0 .75em .25em var(--glow-color);
+  text-shadow: 0 0 .5em var(--glow-color);
+  position: relative;
+  transition: all 0.3s;
+}
+
+.addon::after{
+  background-color: var(--glow-spread-color);
+  filter: blur(2em);
+  opacity: .7;
+  transform: perspective(1.5em) rotateX(35deg) scale(1, .6);
+}
+
+.addon:hover {
+  color: var(--btn-color);
+  background-color: var(--glow-color);
+  box-shadow: 0 0 1em .25em var(--glow-color),
+        0 0 4em 2em var(--glow-spread-color),
+        inset 0 0 .75em .25em var(--glow-color);
+}
+
+.addon:active {
+  box-shadow: 0 0 0.6em .25em var(--glow-color),
+        0 0 2.5em 2em var(--glow-spread-color),
+        inset 0 0 .5em .25em var(--glow-color);
+}
+
+
+
+
+.delete-btn {
+  border: 2px solid rgb(200, 200, 200);
+  background-color: transparent;
+  border-radius: 20px;
+ 
+  margin-right:10px;
+  align-self: flex;
+}
+
+.input-container{
+  display:flex;
+  margin-bottom: 10px;
+  margin-left: 60px;
+}
+
+.add1{
+ display:flex;
+ justify-content:center;
+ align-items: center;
+}
+
+
+ /* Media Query for mobile devices */
+  @media only screen and (max-width: 767px) {
+  .bil-div{
+  display:flex-wrap;
+  flex-direction:column;
+  }
+  .txt-inp-area{
+  rows: 1;
+  cols: 25;
+  }
+    .input-container {
+      margin-left: 10px;
+      
+    }
+    .txt-inp-area1{
+    rows: 1;
+   cols: 6;
+    }
+    }
+
+    .delete-btn {
+      margin-right: 5px;
+      font-size:14px;
+      color:black;
+    }
+    .add{
+    display:flex-wrap;
+  flex-direction:column}
+  
+
+</style>
+</head>
+<body class="black">
+
+<div class="bil-div">
+  <h2 class="this-h2">Bill adder Book</h2>
+  <div>
+    <textarea class="txt-inp-area" id="txt-i"   placeholder="Product Name... "></textarea>
+    <span class="equals">=</span>
+    <textarea class="txt-inp-area1" id="price"  rows="2" cols="6" placeholder="price"></textarea>
+  </div>
+  <div>
+    <textarea class="txt-inp-area" id="txt-i"  placeholder="Product Name... "></textarea>
+    <span class="equals">=</span>
+    <textarea class="txt-inp-area1" id="price" rows="2" cols="6" placeholder="price" ></textarea>
+  </div>
+  <div>
+    <textarea class="txt-inp-area" id="txt-i"  placeholder="Product Name... "></textarea>
+    <span class="equals">=</span>
+    <textarea class="txt-inp-area1" id="price" rows="2" cols="6" placeholder="price"></textarea>
+  </div>
+  <div>
+    <textarea class="txt-inp-area" id="txt-i"  placeholder="Product Name... "></textarea>
+    <span class="equals">=</span>
+    <textarea class="txt-inp-area1" id="price" rows="2" cols="6"placeholder="price"></textarea>
+  </div>
+  <div class="add-new">
+  </div>
+  <div class="add-div">
+  </div>
+  <div class="add">
+    <span class="addon" onclick="onemore()" id="addmore"> + Add more </span>
+    <span onclick="findtotal()" class="addon" id="calc"> Find Total </span>
+  </div>
+  <br class="bro">
+  <br class="bro">
+  <div class="add1">
+    <span class="addon" onclick="printout()" id="addmore"> Printout </span>
+    <span onclick="screenshot()" class="addon" id="calc"> Screenshot </span>
+  </div>
+</div>
+
+</body>
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+<script>
+function findtotal() {
+  var prices = document.getElementsByClassName("txt-inp-area1");
+  var total = 0;
+  
+  for (var i = 0; i < prices.length; i++) {
+    var price = parseFloat(prices[i].value);
+    if (!isNaN(price)) {
+      total += price;
+    }
+  }
+  
+  var resultContainer = document.querySelector(".add-div");
+  var resultElement = document.createElement("p");
+  resultElement.className = "ttl";
+  resultElement.textContent = "Total: " + total;
+  resultContainer.appendChild(resultElement);
+}
+
+function onemore() {
+  var addNewContainer = document.querySelector(".add-new");
+
+  var container = document.createElement("div");
+  container.className = "input-container";
+
+  var productNameTextarea = document.createElement("textarea");
+  productNameTextarea.className = "txt-inp-area";
+ 
+  productNameTextarea.placeholder = "Product Name...";
+
+  var equalsSpan = document.createElement("span");
+  equalsSpan.className = "equals";
+  equalsSpan.textContent = "=";
+
+  var priceTextarea = document.createElement("textarea");
+  priceTextarea.className = "txt-inp-area1";
+  priceTextarea.setAttribute("rows", "2");
+  priceTextarea.setAttribute("cols", "6");
+  priceTextarea.placeholder = "price";
+
+  var deleteButton = document.createElement("button");
+  deleteButton.className = "delete-btn";
+  deleteButton.textContent = "Delete";
+  deleteButton.addEventListener("click", function () {
+    container.remove();
+  });
+
+  container.appendChild(productNameTextarea);
+  container.appendChild(equalsSpan);
+  container.appendChild(priceTextarea);
+  container.appendChild(deleteButton);
+
+  addNewContainer.appendChild(container);
+}
+function screenshot() {
+  var targetElement = document.getElementsByClassName("bil-div")[0];
+
+  html2canvas(targetElement, {
+    backgroundColor: "#fff", // Set the background color to black
+  }).then(function (canvas) {
+    var dataURL = canvas.toDataURL();
+
+    var newWindow = window.open();
+    newWindow.document.write('<img src="' + dataURL + '"/>');
+  });
+}
+
+
+function printout() {
+  window.print();
+}
+</script>
+</html>
